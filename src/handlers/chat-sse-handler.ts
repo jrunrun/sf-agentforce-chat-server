@@ -35,8 +35,9 @@ export async function handleSSEConnection(
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
       Connection: "keep-alive",
-      "Access-Control-Allow-Origin": "http://localhost:5173",
+      // For HTTPS
       // "Access-Control-Allow-Origin": "https://localhost:5173",
+      "Access-Control-Allow-Origin": "http://localhost:5173",
       "Access-Control-Allow-Credentials": "true",
     },
     body: sseResponse.body,

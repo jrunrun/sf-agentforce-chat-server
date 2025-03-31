@@ -38,6 +38,11 @@ async function start() {
       maxAge: 86400,
     });
 
+    // Health check endpoint for Railway
+    server.get("/", async () => {
+      return { status: "ok" };
+    });
+
     await server.register(messagingRoutes, { prefix: "/api" });
 
     server.setNotFoundHandler((request, reply) => {

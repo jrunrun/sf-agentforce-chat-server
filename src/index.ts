@@ -19,11 +19,10 @@ async function start() {
     });
 
     await server.register(cors, {
-      // TODO: change to the production origin
-      // origin: ["http://localhost:5173"],
-      // For HTTPS
-      origin: ["https://localhost:5173"],
-      // origin: ["http://localhost:3000"],
+      origin: [
+        "https://localhost:5173",
+        "https://sf-agentforce-chat-server-production.up.railway.app"
+      ],
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
       credentials: true,
       allowedHeaders: [
@@ -51,6 +50,14 @@ async function start() {
 
     const port = process.env.PORT || 8080;
     const host = '0.0.0.0'; // Required for Railway
+    
+    console.log('Starting server with configuration:', {
+      port,
+      host,
+      env: process.env.NODE_ENV,
+      allEnvVars: process.env
+    });
+
     await server.listen({ 
       port: Number(port), 
       host,

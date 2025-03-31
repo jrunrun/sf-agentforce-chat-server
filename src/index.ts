@@ -21,7 +21,8 @@ async function start() {
     await server.register(cors, {
       origin: [
         "https://localhost:5173",
-        "https://sf-agentforce-chat-server-production.up.railway.app"
+        "https://sf-agentforce-chat-server-production.up.railway.app",
+        "https://136.226.100.188:5173",
       ],
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
       credentials: true,

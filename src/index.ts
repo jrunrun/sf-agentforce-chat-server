@@ -51,8 +51,13 @@ async function start() {
 
     const port = process.env.PORT || 8080;
     const host = '0.0.0.0'; // Required for Railway
-    await server.listen({ port: Number(port), host });
-    console.log(`Server running at http://localhost:${port}`);
+    await server.listen({ 
+      port: Number(port), 
+      host,
+      listenTextResolver: (address) => {
+        return `Server running at ${address}`;
+      }
+    });
   } catch (err) {
     server.log.error(err);
     process.exit(1);

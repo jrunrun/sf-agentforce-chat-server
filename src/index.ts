@@ -19,11 +19,23 @@ async function start() {
     });
 
     await server.register(cors, {
-      origin: [
-        "https://localhost:5173",
-        "https://sf-agentforce-chat-server-production.up.railway.app",
-        "https://136.226.100.188:5173",
-      ],
+      origin: (origin, cb) => {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return cb(null, true);
+        
+        const allowedOrigins = [
+          "https://localhost:5173",
+          "http://localhost:5173",
+          "https://sf-agentforce-chat-server-production.up.railway.app",
+          "https://136.226.100.188:5173"
+        ];
+        
+        if (allowedOrigins.includes(origin)) {
+          cb(null, true);
+        } else {
+          cb(null, false);
+        }
+      },
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
       credentials: true,
       allowedHeaders: [
@@ -36,6 +48,8 @@ async function start() {
       ],
       exposedHeaders: ["*"],
       maxAge: 86400,
+      preflightContinue: false,
+      optionsSuccessStatus: 204
     });
 
     // Health check endpoint for Railway

@@ -33,6 +33,7 @@ async function start() {
           "https://localhost:5173",
           "http://localhost:5173",
           "https://sf-agentforce-chat-server-production.up.railway.app",
+          "https://sf-agentforce-chat-client-production.up.railway.app",
           "https://136.226.100.188:5173",
           "http://localhost:3000",
           "https://localhost:3000"

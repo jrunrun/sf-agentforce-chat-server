@@ -27,16 +27,18 @@ async function start() {
           "https://localhost:5173",
           "http://localhost:5173",
           "https://sf-agentforce-chat-server-production.up.railway.app",
-          "https://136.226.100.188:5173"
+          "https://136.226.100.188:5173",
+          "http://localhost:3000",
+          "https://localhost:3000"
         ];
         
         if (allowedOrigins.includes(origin)) {
           cb(null, true);
         } else {
-          cb(null, false);
+          cb(new Error('Not allowed by CORS'), false);
         }
       },
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"],
       credentials: true,
       allowedHeaders: [
         "Content-Type",
@@ -45,6 +47,10 @@ async function start() {
         "Origin",
         "X-Requested-With",
         "x-conversation-id",
+        "Access-Control-Allow-Origin",
+        "Access-Control-Allow-Headers",
+        "Access-Control-Allow-Methods",
+        "Access-Control-Allow-Credentials"
       ],
       exposedHeaders: ["*"],
       maxAge: 86400,

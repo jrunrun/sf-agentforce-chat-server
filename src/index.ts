@@ -20,8 +20,14 @@ async function start() {
 
     await server.register(cors, {
       origin: (origin, cb) => {
+        // Log the incoming origin for debugging
+        console.log('CORS request from origin:', origin);
+        
         // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return cb(null, true);
+        if (!origin) {
+          console.log('No origin provided, allowing request');
+          return cb(null, true);
+        }
         
         const allowedOrigins = [
           "https://localhost:5173",
@@ -33,8 +39,10 @@ async function start() {
         ];
         
         if (allowedOrigins.includes(origin)) {
+          console.log('Origin allowed:', origin);
           cb(null, true);
         } else {
+          console.log('Origin not allowed:', origin);
           cb(new Error('Not allowed by CORS'), false);
         }
       },
@@ -50,12 +58,24 @@ async function start() {
         "Access-Control-Allow-Origin",
         "Access-Control-Allow-Headers",
         "Access-Control-Allow-Methods",
-        "Access-Control-Allow-Credentials"
+        "Access-Control-Allow-Credentials",
+        "Access-Control-Request-Method",
+        "Access-Control-Request-Headers"
       ],
       exposedHeaders: ["*"],
       maxAge: 86400,
       preflightContinue: false,
       optionsSuccessStatus: 204
+    });
+
+    // Add a global hook to log all requests
+    server.addHook('onRequest', async (request, reply) => {
+      console.log('Incoming request:', {
+        method: request.method,
+        url: request.url,
+        headers: request.headers,
+        origin: request.headers.origin
+      });
     });
 
     // Health check endpoint for Railway
